@@ -2,10 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+=======
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
-Route::get('/login', function () {
-    return view('admin/login');
-});
+require_once base_path('routes/dashboard.php');
+>>>>>>> main
