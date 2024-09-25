@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('phone_number');
             $table->string('password');
             $table->string('status')->default(0);
-            $table->string('city');
+            $table->foreignId('city_id')->references('id')->on('ships');
             $table->string('otp')->nullable();
             $table->boolean('verified_email')->default(0);
             $table->timestamps();

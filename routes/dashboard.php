@@ -1,19 +1,25 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\ShipController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\CobonController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OrderItemsController;
 use App\Http\Controllers\Admin\ProductSizeController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\ProductSizeColorController;
+use App\Http\Controllers\Admin\RoleController;
 
 Route::group(['prefix' => 'dashboard', 'as' => 'admin.', 'middleware' => 'guest'], function () {
 
@@ -112,5 +118,55 @@ Route::group(['prefix' => 'dashboard', 'as' => 'admin.', 'middleware' => AdminMi
         Route::put('/customer/{id}/update','update')->name('update');
         Route::put('/customer/{id}/block','block')->name('block');
         Route::put('/customer/{id}/unblock','unblock')->name('unblock');
+    });
+
+    Route::group([ 'as' => 'shipping.','controller'=>ShipController::class], function () {
+        Route::get('/shipping','index')->name('index');
+        Route::get('/shipping/create','create')->name('create');
+        Route::post('/shipping/store','store')->name('store');
+        Route::get('/shipping/{id}/edit','edit')->name('edit');
+        Route::put('/shipping/{id}/update','update')->name('update');
+        Route::delete('/shipping/{id}/delete','destroy')->name('delete');
+    });
+
+    Route::group([ 'as' => 'cobon.','controller'=>CobonController::class], function () {
+        Route::get('/cobon','index')->name('index');
+        Route::get('/cobon/create','create')->name('create');
+        Route::post('/cobon/store','store')->name('store');
+        Route::get('/cobon/{id}/edit','edit')->name('edit');
+        Route::put('/cobon/{id}/update','update')->name('update');
+        Route::delete('/cobon/{id}/delete','destroy')->name('delete');
+    });
+    Route::group([ 'as' => 'contact.','controller'=>ContactController::class], function () {
+        Route::get('/contact','index')->name('index');
+        Route::get('/contact/{id}/show','show')->name('show');
+        Route::get('/contact/showreaded','readed')->name('readed');
+        Route::delete('/contact/{id}/delete','destroy')->name('delete');
+    });
+
+    Route::group([ 'as' => 'order.','controller'=>OrderItemsController::class], function () {
+        Route::get('/order','index')->name('index');
+        Route::get('/order/create','create')->name('create');
+        Route::get('/order/{id}/edit', 'edit')->name('edit');
+        Route::put('/order/{order}/update','update')->name('update');
+        Route::get('/order/{id}/show','show')->name('show');
+    });
+
+    Route::group([ 'as' => 'role.','controller'=>RoleController::class], function () {
+        Route::get('/role','index')->name('index');
+        Route::get('/role/create','create')->name('create');
+        Route::post('/role/store','store')->name('store');
+        Route::get('/role/{id}/edit','edit')->name('edit');
+        Route::put('/role/{id}/update','update')->name('update');
+        Route::delete('/role/{id}/delete','destroy')->name('delete');
+    });
+
+    Route::group([ 'as' => 'admin.','controller'=>AdminController::class], function () {
+        Route::get('/admin','index')->name('index');
+        Route::get('/admin/create','create')->name('create');
+        Route::post('/admin/store','store')->name('store');
+        Route::get('/admin/{id}/edit','edit')->name('edit');
+        Route::put('/admin/{id}/update','update')->name('update');
+        Route::delete('/admin/{id}/delete','destroy')->name('delete');
     });
 });

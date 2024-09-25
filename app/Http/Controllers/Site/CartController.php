@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Site;
 
 use App\Models\Cart;
-use App\Http\Controllers\Controller;
-use App\Models\ProductSizeColor;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Cobon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth as FacadesAuth;
 use PhpParser\Node\Stmt\Catch_;
+use App\Models\ProductSizeColor;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class CartController extends Controller
 {
@@ -17,8 +18,9 @@ class CartController extends Controller
      */
     public function index()
     {
-        $carts=Cart::with('product_size_color.product')->get();
-        return view('site.cart.index',compact('carts'));
+        $customer=Auth::guard('customers')->user();
+        $carts=Cart::with('product_size_color.product','product_size_color.productSize.size','product_size_color.color')->get();
+        return view('site.cart.index',compact(['carts','customer']));
     }
 
     /**
@@ -76,6 +78,7 @@ class CartController extends Controller
             'product_size_color_id'=>$request->product_size_color_id,
             'quantity'=>$request->quantity,
             'customer_id'=>Auth::guard('customers')->id(),
+            'unit_price'=>$product_size_color->offer!=0 ? $product_size_color->offer : $product_size_color->price,
         ]);
         return redirect()->route('site.product',$create->product_size_color->product->slug)->with('success','تم اضافة منتج للسلة');
     }
@@ -107,8 +110,58 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cart $cart)
+    public function destroy($id)
     {
-        //
+        $cart=Cart::find($id);
+        if($cart){
+            $cart->delete();
+            return redirect()->back()->with('success','تم حذف المنتج من السلة');
+        }
+        return back()->with('error','لا تلعب ب منتجات غيرك يا حيوان');
+       
+    }
+
+    public function incraseQuantity($id)
+    {
+        $cart=Cart::find($id);
+        if($cart->quantity+1 > $cart->product_size_color->quantity)
+        {
+            return redirect()->route('site.cart.index')->with('error','هذا هو اقصى عدد من هذا المنتج متوفر حاليا');
+        }
+        $cart->update([ 
+            'quantity'=>$cart->quantity+1,
+        ]);
+        return redirect()->route('site.cart.index')->with('success','تم زيادة منتج بنجاح');
+    }
+
+    public function dicraseQuantity($id)
+    {
+        $cart=Cart::find($id);
+        if($cart->quantity==1)
+        {
+            return redirect()->route('site.cart.index')->with('success','لديك منتج واحد اذا كنت تريد الحذف اضغط الزر بجانب المنتج');
+        }
+        else
+        $cart->update([ 
+            'quantity'=>$cart->quantity-1,
+        ]);
+        return redirect()->route('site.cart.index')->with('success','تم انقاص منتج بنجاح');
+    }
+
+    public function applyCobon(Request $request)
+    {
+        $vali=$request->validate([
+            'code'=>'required',
+        ]);
+        $cobon=Cobon::where('code',$request->code)->first();
+        if($cobon)
+        {
+            $carts=Cart::get();
+            $sum=0;
+            foreach ($carts as $cart) {
+                $sum += $cart->product_size_color->price * $cart->quantity;
+            }
+            return redirect()->route('site.cart.index')->with('price_after_cobon',$sum-$cobon->amount);
+        }
     }
 }

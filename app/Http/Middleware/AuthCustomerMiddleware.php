@@ -17,7 +17,7 @@ class AuthCustomerMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if(!Auth::guard('customers')->check()){
-            return redirect()->route('site.home');
+            return redirect()->route('site.signin')->with('error','يجب عليك تسجيل الدخول لتتمكن من القيام بهذا الاجراء');
         }
         return $next($request);
     }

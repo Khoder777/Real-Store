@@ -46,4 +46,9 @@ class ProductSizeColor extends Model
     {
       return $this->hasMany(Cart::class);
     }
+
+    public function orderItems()
+    {
+      return $this->hasMany(Cart::class,'product_size_colors_id');
+    }
 }

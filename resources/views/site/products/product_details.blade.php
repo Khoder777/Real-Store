@@ -16,7 +16,7 @@
                             </div>
                         </div>
                         @php
-                            $s = $product->ProductSizeColors()->where('id', request('productcolor', ''))->first();
+                            $s = $product->ProductSizeColors->where('id', request('productcolor', ''))->first();
                         @endphp
                         <div class="col-lg-6">
                             <h4 class="fw-bold mb-3">{{ $product->name }}</h4>

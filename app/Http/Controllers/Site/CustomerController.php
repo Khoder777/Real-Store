@@ -30,7 +30,7 @@ class CustomerController extends Controller
            
             if($c->status == 0)
             {
-                return redirect()->back()->with('error','حسابك محظور حاليا');
+                return redirect()->back()->with('error','حسابك محظور حاليا ارسل رسالة تتضمن اسمك مع اعتذار للادمن');
             }
             if(!Hash::check($request->password,$c->password)){
               
@@ -76,7 +76,7 @@ class CustomerController extends Controller
         $vali=$request->validate([
             'full_name'=>'required|string|max:255',
             'password'=>'required|string|max:255|min:8',
-            'city'=>'required',
+            'city_id'=>'required',
             'phone_number'=>'required|string|max:10',
             'email'=>'required|email|unique:customers,email',
         ]);
@@ -84,7 +84,7 @@ class CustomerController extends Controller
         $create=Customer::create([
             'full_name'=>$request->full_name,
             'password'=>Hash::make($request->password),
-            'city'=>$request->city,
+            'city_id'=>$request->city_id,
             'phone_number'=>$request->phone_number,
             'email'=>$request->email,
             'image'=>'user_image.png',

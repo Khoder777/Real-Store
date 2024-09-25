@@ -18,6 +18,7 @@ class Cart extends Model
         'customer_id',
         'product_size_color_id',
         'quantity',
+        'unit_price'
     ];
 
     protected static function booted()

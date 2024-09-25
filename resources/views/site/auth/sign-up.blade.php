@@ -63,10 +63,22 @@ color: gold;
                   <div class="mb-3">
                     <input type="text" name='phone_number' class="form-control" placeholder="phone_number" aria-label="phone_number" aria-describedby="phone_number-addon">
                   </div>
-                  <div class="mb-3">
-                    <input type="text" name='city' class="form-control" placeholder="city" aria-label="city" aria-describedby="city-addon">
-                  </div>
-                  
+                  <label>Choose your City</label>
+                      <div class="mb-3">
+                        <select name='city_id' class="form-select @error('city_id') is-invalid @enderror">
+                            <option value='0'>Choose City</option>
+                            @foreach ($cities as $c)
+                            <option value='{{ $c->id }}'>
+                               {{ $c->city}} 
+                            </option>
+                            @endforeach 
+                        </select>
+                        @error('city_id')
+                        <div class="invalid-feedback">
+                          {{ $message }}
+                          @enderror  
+                        </div>
+                      </div> 
                   <div class="form-check form-check-info text-left">
                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
                     <label class="form-check-label" for="flexCheckDefault">

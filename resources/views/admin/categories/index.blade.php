@@ -19,9 +19,12 @@
               <div class="col-6 d-flex align-items-center">
                 <h6 class="mb-0">Category Table</h6>
               </div>
+              @can('create_category')
               <div class="col-6 text-end">
                 <a class="btn bg-gradient-dark mb-0" href="{{ route('admin.category.create') }}"><i class="fas fa-plus"></i>&nbsp;&nbsp;Add New Category</a>
               </div>
+              @endcan
+             
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
@@ -52,10 +55,13 @@
                       </td>
                       <td class="align-middle text-center text-sm">
                         <div class="d-flex justify-content-center">
+                          @can('edit_category')
                         <a href="{{ route('admin.category.edit', ['id' => $c->id]) }}"> <button class="btn btn-outline-info btn-sm mb-0 me-3">
                           Edit
                            </button></a>
-                           @if(!$c->subCategories()->count())
+                           @endcan
+                           @can('delete_category')
+                           @if(!$c->subCategories->count())
                            <form action="{{ route('admin.category.delete', ['id' => $c->id]) }}" method='post'>
                             @csrf
                             @method('delete')
@@ -64,6 +70,7 @@
                              </button>
                            </form>
                            @endif
+                           @endcan
                           </div>
                       </td>
                     </tr>
