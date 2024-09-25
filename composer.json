@@ -9,7 +9,10 @@
         "barryvdh/laravel-debugbar": "^3.13",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "pusher/pusher-php-server": "^7.2",
+        "spatie/laravel-permission": "^6.9",
+        "symfony/intl": "^7.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -29,7 +32,10 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        }
+        },
+        "files":[
+            "app/helpers.php"
+        ]
     },
     "scripts": {
         "post-autoload-dump": [

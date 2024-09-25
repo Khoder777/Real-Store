@@ -15,7 +15,7 @@ class Customer extends Authenticatable
         'email',
         'image',
         'phone_number',
-        'city',
+        'city_id',
         'password',
         'status',
         'otp',
@@ -32,5 +32,9 @@ class Customer extends Authenticatable
     public function carts()
     {
       return $this->hasMany(Cart::class);
+    }
+    public function Ship()
+    {
+        return $this->belongsTo(ship::class,'city_id');
     }
 }

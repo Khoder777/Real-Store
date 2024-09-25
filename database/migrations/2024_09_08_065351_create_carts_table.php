@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('customer_id')->references('id')->on('customers');
             $table->foreignId('product_size_color_id')->references('id')->on('product_size_colors');
             $table->unsignedMediumInteger('quantity')->default(1);
+            $table->unsignedInteger('unit_price');
             $table->timestamps();
         });
     }

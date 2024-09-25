@@ -15,10 +15,26 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'password' => '123123123',
+        // User::factory()->create([
+        //     'name' => 'Admin',
+        //     'email' => 'admin@admin.com',
+        //     'password' => '123123123',
+        // ]);
+        $this->call([
+          BrandPermissionsSeeder::class,
+          ColorPermissionsSeeder::class,
+          SizePermissionsSeeder::class,
+          CategoryPermissionsSeeder::class,
+          SubCategoryPermissionsSeeder::class,
+          SliderPermissionsSeeder::class,
+          RolePermissionsSeeder::class,
+          CobonPermissionsSeeder::class,
+          ShipPermissionsSeeder::class,
+          ContactPermissionsSeeder::class,
+          ProductPermissionsSeeder::class,
+          OrderPermissionsSeeder::class,
+          CustomerPermissionsSeeder::class,
+          AdminPermissionsSeeder::class,
         ]);
     }
 }

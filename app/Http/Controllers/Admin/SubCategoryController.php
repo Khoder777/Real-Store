@@ -15,7 +15,7 @@ class SubCategoryController extends Controller
      */
     public function index()
     {
-        $subCategory=subCategory::all();
+        $subCategory=subCategory::with('category')->get();
         
         return view('admin.subCategories.index',compact('subCategory'));
     }

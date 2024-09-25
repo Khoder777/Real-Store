@@ -1,6 +1,7 @@
 @extends('site.layout.master')
 @section('content')
         <!-- Hero Start -->
+        
         <div class="container-fluid py-5 mb-5 hero-header">
             <div class="container py-5">
                 <div class="row g-5 align-items-center">
@@ -38,7 +39,16 @@
         </div>
         <!-- Hero End -->
 
-
+        @if (Session::has('success'))
+        <div class="alert alert-success">
+            {{ Session::get('success') }}
+        </div>
+    @endif
+    @if (Session::has('error'))
+        <div class="alert alert-danger">
+            {{ Session::get('error') }}
+        </div>
+    @endif
         <div class="container-fluid service py-5">
             <div class="container py-5">
                 <div class="row g-4 justify-content-center">
